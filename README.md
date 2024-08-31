@@ -8,14 +8,17 @@
 ![image](https://github.com/user-attachments/assets/aab795fb-7823-4ad8-b5b5-bc5dc221ffc1)
 
 Gelöst mit einem einzigen Arduino und über eine Action und nicht einzelne Topics. Message kann wie folgt aussehen:
-Goal
-string  seite #Rechts oder links
+
+Goal  
+string  seite #Rechts oder links  
 int pos #Position des Baumes
-#Published result
+
+#Published result  
 Bool goal_achieved #Erfolgreiche Bewässerung
-#Feedback message
-int current_pos #Aktuelle position der Motoren
-int current_state #Aktuelle Schritt der Schrittkette
+
+#Feedback message  
+int current_pos #Aktuelle position der Motoren  
+int current_state #Aktuelle Schritt der Schrittkette  
 Zusätzlich wird ein Topic für den Wasserstand gebraucht
 
 
