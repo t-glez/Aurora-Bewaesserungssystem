@@ -55,6 +55,8 @@ public:
   Output output;
   int current_step = 10;
   int water_quantity = 0;
+  long timer;
+  long pump_timeout = 5000; //Zeit in milisekunden 
 };
 
 Process process;
@@ -67,12 +69,6 @@ bool toggle_variable = 0;
 ros::NodeHandle nh;
 
 //Subscribers
-//Subscribe to start
-void startCb(const std_msgs::Empty& toogle_msg) {
-  Serial.println("Starting...");
-  process.input.start = 1;
-}
-ros::Subscriber<std_msgs::Empty> start_message("start_process", &startCb);
 
 //Subscribe to cancel
 void cancelCb(const std_msgs::Empty& msg) {
@@ -82,9 +78,11 @@ void cancelCb(const std_msgs::Empty& msg) {
 ros::Subscriber<std_msgs::Empty> cancel_message("cancel_process", &cancelCb);
 
 //Subscrube to side
+//When message incoming --> Start the process
 void sideCb(const std_msgs::String& msg) {
-  Serial.print("Changin side to: ");
-  Serial.print(msg.data);
+  Serial.print("Starting on the: ");
+  Serial.println(msg.data);
+  process.input.start = 1;
   process.input.side = msg.data;
 }
 ros::Subscriber<std_msgs::String> side_message("side", &sideCb);
@@ -107,7 +105,6 @@ void setup() {
   nh.initNode();
 
   //Subscribers
-  nh.subscribe(start_message);
   nh.subscribe(side_message);
   nh.subscribe(cancel_message);
 
@@ -116,7 +113,6 @@ void setup() {
 }
 
 void loop() {
-  // EVA Prinzip
   //Get all inputs
   nh.spinOnce();
   bool step_change = 0;
@@ -138,22 +134,32 @@ void loop() {
       break;
 
     case 20:
+      //Start pump timer
+      if(!process.output.pump){
+        process.timer = millis();
+        Serial.println(process.timer);
+      }
       //Turn pump and right valve on
       process.output.pump = 1;
       process.output.right_valve = 1;
 
-      if (process.input.cancel) {
+      if (process.input.cancel || millis() - process.timer > process.pump_timeout) {
         process.input.cancel = 0;
         process.current_step = 40;
         step_change = 1;
       }
       break;
     case 30:
+      //Start pump timer
+      if(!process.output.pump){
+        process.timer = millis();
+        Serial.println(process.timer);
+      }
       //Turn pump and right valve on
       process.output.pump = 1;
       process.output.left_valve = 1;
 
-      if (process.input.cancel) {
+      if (process.input.cancel || millis() - process.timer > process.pump_timeout) {
         process.input.cancel = 0;
         process.current_step = 40;
         step_change = 1;
@@ -164,6 +170,9 @@ void loop() {
       process.output.pump = 0;
       process.output.left_valve = 0;
       process.output.right_valve = 0;
+      
+      process.current_step = 10;
+      step_change = 1;
       break;
     default:
       break;
