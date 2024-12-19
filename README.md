@@ -1,25 +1,17 @@
 # Aurora-Bewaesserungssystem
  ROS and Arduino programms for the Aurora-Bewaesserungssystem
-## To-Do
-
-## ROS package
 
 ### Kommunikation
-![image](https://github.com/user-attachments/assets/aab795fb-7823-4ad8-b5b5-bc5dc221ffc1)
 
-Gelöst mit einem einzigen Arduino und über eine Action und nicht einzelne Topics. Message kann wie folgt aussehen:
+Um Kommunikation mit dem Controllino zu starten muss folgendes gestartet werden:
 
-Goal  
-string  seite #Rechts oder links  
-int pos #Position des Baumes
+```
+rosrun rosserial_python serial_node.py tcp 11411
+```
 
-#Published result  
-Bool goal_achieved #Erfolgreiche Bewässerung
+Um Prozess zu starten muss ein std_msgs/String "data: 'Links'" oder "data: 'Rechts'" geschickt werden.
 
-#Feedback message  
-int current_pos #Aktuelle position der Motoren  
-int current_state #Aktuelle Schritt der Schrittkette  
-Zusätzlich wird ein Topic für den Wasserstand gebraucht
+Cancell mit 
 
 
 ## Arduino
