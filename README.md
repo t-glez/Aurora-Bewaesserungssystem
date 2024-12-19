@@ -18,10 +18,7 @@ Cancell mit
 
 ### Process
 
-![image](https://github.com/user-attachments/assets/442106db-0deb-496b-b3c5-eff94e6a588e)
+![Ablauf-V2 drawio](https://github.com/user-attachments/assets/e44a87c0-f1eb-4fd6-8971-e4bf91ab9b20)
 
-Das Diagramm gilt erstmal nur für eine Seite. Es muss eine Verzweigung bei Übergang 1 hinzugefügt werden, um die andere Seite zu bedienen. Außerdem muss es eine Möglichkeit geben, den Prozess abbrechen zu können. Das heißt in Schritt 40 Springen zu können.
-
-Bei jedem Schrittwechsel soll dies als Feedback angezeigt werden.
 
 
